@@ -39,10 +39,10 @@ import os
 #"https://youtu.be/bRj3HnEa1Z4" 
 #"https://youtu.be/Y2AdJnlvuNw"
 
-#set of functional youtube links (USE youTranscribe FOR THESE)
+# Set of functional youtube links (USE youTranscribe FOR THESE)
 links = ["https://youtu.be/FLgww1kfhgQ", "https://youtu.be/wCqPCA0yCW0", "https://youtu.be/3S4NybR5RP8", "https://youtu.be/pYvsb-uhnUI", "https://youtu.be/Z9Mob1GZfKc", "https://youtu.be/urF-5L8DcqM", "https://youtu.be/1X2BEFHnfzg", "https://youtu.be/UJQZJcow6Ek", "https://youtu.be/xJxa0nDZ9lk", "https://youtu.be/REsXkfCRrbg", "https://youtu.be/qbg6zO6u0Pk", "https://youtu.be/-x2kvXEHthw", "https://youtu.be/i68PxSdCHDU", "https://youtu.be/Ik0S8CBlozM", "https://youtu.be/nfai9a3YyqI", "https://youtu.be/GhLj84tY84c", "https://youtu.be/rxW-bALKAcs", "https://youtu.be/8jmOuqVrVvY", "https://youtu.be/Fm_4szW1IQw", "https://youtu.be/sYcrlxP6z2A", "https://youtu.be/h08ncZKxWq0", "https://youtu.be/nICtNIU_uqA", "https://youtu.be/vvvmGmZYOBo", "https://youtu.be/F7UfzX_ESps", "https://youtu.be/icmjtX7Muwo", "https://youtu.be/5lYmKkZ4FEg", "https://youtu.be/_u00N-LNLDU", "https://youtu.be/QqGsPmJuwvQ", "https://youtu.be/ua5JShO9E-M", "https://youtu.be/c8K1SDQaWB4", "https://youtu.be/Y2AdJnlvuNw", "https://youtu.be/H2FnFjChujU", "https://youtu.be/96qJYaEeaks", "https://youtu.be/UcEv2u55BB8", "https://youtu.be/7nUvB-Yxqls", "https://youtu.be/WTRv9PPgDGE", "https://youtu.be/-L6qJmG8BYw", "https://youtu.be/Vzijm68Jt4k", "https://youtu.be/M-iLizq_QFM", "https://youtu.be/ywOm3bZJDK0", "https://youtu.be/abABHh5Dzsc", "https://youtu.be/8lTRdGEPbBw", "https://youtu.be/zXJZDfwtQdA", "https://youtu.be/9mlaORuPpDc", "https://youtu.be/SfAICo_wmN8", "https://youtu.be/0FFARgE_RpU", "https://youtu.be/MZssdUzOWTE", "https://youtu.be/Wrlc5kY05go", "https://youtu.be/nolR-swQqgw", "https://youtu.be/6FcPy5kyJVg", "https://youtu.be/w7epeL9X0lQ", "https://youtu.be/PEJAmI69OBo", "https://youtu.be/xiSYtmrwfSU", "https://youtu.be/rePPjmcCa54", "https://youtu.be/pjT4DMJTQLI", "https://youtu.be/indhThEotCA", "https://youtu.be/MWoS-OXRi54", "https://youtu.be/kCyl-R3utQc", "https://youtu.be/F-oENvXSBAw", "https://youtu.be/SFrVC-Sub48", "https://youtu.be/37WA_ZBXMeo", "https://youtu.be/7Ndgkokq5Q8", "https://youtu.be/lKE_y2EI5k4", "https://youtu.be/y1m3TrfNYDI", "https://youtu.be/sgb6R5vQk8U", "https://youtu.be/JW9cECna9dg", "https://youtu.be/fHgcILLymeM", "https://www.youtube.com/watch?v=DYJLQQPRjYc&list=PLTQMmRSAZ8KAYYpytmABnIuDHxBecysx6&index=31", "https://youtu.be/rg9eaDAMtTg", "https://youtu.be/PiLYfWGEUUs", "https://youtu.be/n5Yc05bsKPI", "https://youtu.be/2k1bj7Yysbc", "https://youtu.be/7ISp_7eJDOo", "https://youtu.be/igxg4BDH7x4"]
 
-#Transcribes a list of videos and returns text files for each transcribed video
+# Transcribes a list of videos and returns text files for each transcribed video
 def youTranscribe(links):
     for url in links:
         yt = YouTube(url)
@@ -57,7 +57,7 @@ def youTranscribe(links):
         with open(str(youtube_title) + ".txt", "w", encoding="utf-8") as txt:
             txt.write(result["text"])
             
-#Transcribes a single youtube video and returns a text file of the transcribed audio
+# Transcribes a single youtube video and returns a text file of the transcribed audio
 def singleTrancriber(link):
     YOUTUBE_VIDEO =  link
     if not os.path.exists("transcription.txt"):
