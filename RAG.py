@@ -10,22 +10,22 @@ from langchain.prompts import ChatPromptTemplate
 from langchain.prompts import HumanMessagePromptTemplate
 from langchain_core.messages import SystemMessage
 
-#Load the API key
+# Load the API key
 os.environ['OPENAI_API_KEY'] = "INSERT OPENAPI KEY HERE"
 
-#Recursively splits text into chunks
+# Recursively splits text into chunks
 def get_text_chunks(raw_text):
     text_splitter = RecursiveCharacterTextSplitter(chunk_size=2000, chunk_overlap=0, separators=[" ", ",", "\n"])
     chunks = text_splitter.split_text(raw_text)
     return chunks
 
-#Generates a vectorstore
+# Generates a vectorstore
 def get_vectorstore(chunks):
     embeddings = OpenAIEmbeddings()
     vectorstore = FAISS.from_texts(texts=chunks, embedding=embeddings)
     return vectorstore
 
-#Generates the model template
+# Generates the model template
 def get_conversation_chain(vectorstore):
     template = ChatPromptTemplate.from_messages(
       [
@@ -61,7 +61,7 @@ def get_conversation_chain(vectorstore):
     )
     return conversation_chain
 
-#Putting it all together
+# Putting it all together
 def create_chat_from_text(directory):
     with open('combined.txt', 'r') as file:
         text_documents = file.read()
