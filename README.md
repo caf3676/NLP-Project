@@ -29,13 +29,6 @@ Methods:
 - Custom formulas for engagement scoring
 - Multi-factor weighted ranking (S = w1*t + w2*k + w3*c + w4*e)
 
-File Structure
-.
-├── KOD.py # main file
-├── .gitignore
-├── requirements.txt # list of all required libraries
-└── README.md
-
 Quick start
 
 a. Install dependencies:
