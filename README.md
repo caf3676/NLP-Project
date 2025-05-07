@@ -32,10 +32,15 @@ Methods:
 Quick start
 
 a. Install dependencies:
+
    pip install -r requirements.txt
+  
 b. Set up API keys:
+
    os.environ['OPENAI_API_KEY'] = "your-api-key"
+   
 d. Run KOD.py:
+
    python KOD.py (opens a Streamlit UI webpage)
 
 For questions or collaborations, please contact the authors:
