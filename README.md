@@ -2,7 +2,7 @@
 
 Project Demo
 
-[http://www.youtube.com/watch?v=YOUTUBE_VIDEO_ID_HERE](https://www.youtube.com/watch?v=b65aknqQKX4)
+https://www.youtube.com/watch?v=b65aknqQKX4
 
 Overview
 
