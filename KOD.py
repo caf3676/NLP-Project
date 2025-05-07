@@ -20,6 +20,22 @@ import re
 nltk.download('punkt_tab')
 import streamlit as st
 import spacy
+from groq import Groq
+
+os.environ["GROQ_API_KEY"] = "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"
+client = Groq(api_key=os.getenv("GROQ_API_KEY"))
+
+def summarize_transcript_groq(transcript_text):
+    response = client.chat.completions.create(
+        model="llama3-70b-8192",  # or "mixtral-8x7b-32768"
+        messages=[
+            {"role": "system", "content": "You are a helpful assistant that summarizes YouTube video transcripts."},
+            {"role": "user", "content": f"Summarize this transcript in simple terms:\n\n{transcript_text}"}
+        ],
+        max_tokens=250,
+        temperature=0.5
+    )
+    return response.choices[0].message.content
 
 @st.cache_resource
 def load_spacy_model():
@@ -56,6 +72,7 @@ def transcribeVideos(links):
             with open(str(youtube_title) + ".txt", "w", encoding="utf-8") as txt:
                 txt.write(result["text"])
         return (videoTitles, videoLinks)
+        
 # Converts a youtube audio transcript into a string 
 def obtainCorpus(file_path):
     with open(file_path, "r", encoding="utf-8") as f:
@@ -87,7 +104,6 @@ def softmax(x):
 def minmax(x):
     return (x - np.min(x)) / max(np.ptp(x), 1e-6)
 
-
 # Determines the text similarity score for each video
 def textSimilarityScore(query, videoTranscripts, model_name = "all-MiniLM-L6-v2"):
     # Load SBERT model
@@ -115,7 +131,6 @@ def keywordScore(query, videoTranscripts):
     return softmax(scores)
 
 def complexityScore(videoTranscripts, max_grade_level=10):
-
      scores = []
      for transcript in videoTranscripts:
         grade_level = textstat.flesch_kincaid_grade(transcript)
@@ -187,12 +202,7 @@ def engagementScore(videoStats):
         channel_score = min(int(stats['subscriber_count']) / 1_000_000, 1.0)  #cap at 1 million subs
         resolution_score = 1.0 if stats['resolution'] == 'hd' else 0.5
         comment_score = int(stats['comment_count']) / max(int(stats['view_count']), 1)
-        
-        #if stats['comment_texts']:
-         #   sentiments = [TextBlob(text).sentiment.polarity for text in stats['comment_texts']]
-         #   avg_sentiment = (sum(sentiments) / len(sentiments) + 1) / 2  #normalize from [-1,1] to [0,1]
-        #else:
-         #   avg_sentiment = 0.5
+    
         score = (0.3 * like_ratio +
                 0.3 * comment_score +
                 0.2 * channel_score +
@@ -233,17 +243,25 @@ st.title("\U0001F3AF YouTube Video Scoring Tool")
 
 # Input query
 nlp = load_spacy_model()
+
+IMPORTANT_TERMS = {"ai", "ml", "ux", "ui", "vr", "ar"}
+
 def extract_query_terms(text):
     doc = nlp(text)
     lemmas = [
         token.lemma_.lower()
         for token in doc
-        if token.pos_ in {"NOUN", "PROPN"}
-        and not token.is_stop
-        and token.is_alpha
-        and len(token.text) > 2
+        if (
+            token.pos_ in {"NOUN", "PROPN"}
+            and not token.is_stop
+            and token.is_alpha
+            and (
+                len(token.text) > 2 or token.lemma_.lower() in IMPORTANT_TERMS
+            )
+        )
     ]
     return " ".join(dict.fromkeys(lemmas)) if lemmas else None
+
 
 query_input = st.text_input("What do you want to learn about today?", key="query")
 query = None
@@ -265,10 +283,16 @@ if query_input:
     engageScore = engagementScore(videoStats)
     videoTuple = qualityScore(simScore, keyScore, readScore, engageScore, videoArray)
 
-
     st.markdown(
-        f"### ✅ The video you should watch is: {videoTuple[0]}(%s)" % videoTuple[1],
+        f"### ✅ The video you should watch is: {videoTuple[0]} (%s)" % videoTuple[1],
         unsafe_allow_html=True)
+    
+    with open(videoTuple[0] + ".txt", "r", encoding="utf-8") as f:
+        best_transcript = f.read()
 
+    summary = summarize_transcript_groq(best_transcript)
+
+    st.markdown("#### 🧾 Summary of the video:")
+    st.write(summary)
 
 
