@@ -1,5 +1,9 @@
 # Knowledge on Demand: Query Retrieval and Analysis using LLMs
 
+Project Demo
+
+[![IMAGE ALT TEXT]([http://img.youtube.com/vi/YOUTUBE_VIDEO_ID_HERE/0.jpg)](http://www.youtube.com/watch?v=YOUTUBE_VIDEO_ID_HERE](https://www.youtube.com/watch?v=b65aknqQKX4) "NLP Demo")
+
 Overview
 
 Our project aims to help students, particularly visual learners, efficiently find high-quality YouTube videos that explain complex topics. Instead of manually searching through numerous videos, the system automates the process by evaluating a ranked list of relevant videos based on factors such as textual similarity, keyword relevance, readability, and engagement metrics. This ensures that learners receive the most useful content without the frustration of ineffective searches. 
