@@ -21,9 +21,9 @@ nltk.download('punkt_tab')
 import streamlit as st
 import spacy
 from groq import Groq
+from dotenv import load_dotenv
 
-os.environ["GROQ_API_KEY"] = "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"
-client = Groq(api_key=os.getenv("GROQ_API_KEY"))
+api_key = os.environ.get("MY_API_KEY")
 
 def summarize_transcript_groq(transcript_text):
     response = client.chat.completions.create(
@@ -42,7 +42,7 @@ def load_spacy_model():
     return spacy.load("en_core_web_sm")
 
 # Obtains 5 youtube links based on the query
-def obtainVideos(query, api_key = "AIzaSyB4nQ4y0imBmJBWkSNkGaFhLCUvIkuq68M"):
+def obtainVideos(query, api_key):
     youtube = build('youtube', 'v3', developerKey=api_key)
     request = youtube.search().list(q=query, part='id', type='video', maxResults=5)
     response = request.execute()
@@ -145,7 +145,7 @@ def complexityScore(videoTranscripts, max_grade_level=10):
 
      return softmax(np.array(scores))
 
-def obtainVideoStats(videoLinks, api_key="AIzaSyB4nQ4y0imBmJBWkSNkGaFhLCUvIkuq68M"):
+def obtainVideoStats(videoLinks, api_key):
     youtube = build('youtube', 'v3', developerKey=api_key)
     videoIDs = []
     print(videoLinks)
